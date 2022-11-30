@@ -3,8 +3,8 @@ const ANIMATION_TIME = 200;
 export default {
     selectShape(state, payload) {
         for (const i in state.shapes) {
-            if (state.shapes[i].id === payload.id){
-                state.shapes[i].selected = !state.shapes[i].selected;
+            if (state.shapes[i].id === payload.id) {
+                state.shapes[i].selected = true;
                 state.active = true;
             } else {
                 state.shapes[i].selected = false;
@@ -12,7 +12,7 @@ export default {
         }
     },
     moveShape(state, payload) {
-        setTimeout(()=>{
+        setTimeout(() => {
             for (const i in state.shapes) {
                 if (state.shapes[i].selected) {
                     this.commit('game/writeHistory', {
@@ -32,13 +32,19 @@ export default {
                     state.active = false;
                 }
             }
-        },ANIMATION_TIME)
+        }, ANIMATION_TIME)
         this.commit('game/nextRound');
     },
     fightShape(state, payload) {
+        const index = state.shapes.findIndex(shape => shape.selected);
+        const killedShape = payload.killedShape;
+        if(state.shapes[index] === payload.killedShape){
+            state.shapes[index].selected = false;
+            state.active = false;
+            return;
+        }
         setTimeout(() => {
             const newPlace = payload.newPlaceForWinner.name;
-            const killedShape = payload.killedShape;
             for (const i in state.shapes) {
                 if (state.shapes[i].selected) {
                     this.commit('squares/deleteShape', state.shapes[i].position);
@@ -57,7 +63,7 @@ export default {
                     state.active = false;
                     this.commit('squares/placeShape', state.shapes[i]);
                 }
-                if (state.shapes[i].id === killedShape.id){
+                if (state.shapes[i].id === killedShape.id) {
                     state.shapes[i].live = false;
                     state.shapes[i].position = '';
                 }
@@ -67,7 +73,7 @@ export default {
         this.commit('game/nextRound');
     },
     resetShapes(state) {
-        for(let i in state.shapes){
+        for (let i in state.shapes) {
             state.shapes[i].position = state.shapes[i].defaultPosition;
             state.shapes[i].live = true;
             this.commit('squares/placeShape', state.shapes[i]);
