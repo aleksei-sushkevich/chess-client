@@ -38,7 +38,7 @@ export default {
     fightShape(state, payload) {
         const index = state.shapes.findIndex(shape => shape.selected);
         const killedShape = payload.killedShape;
-        if(state.shapes[index] === payload.killedShape){
+        if (state.shapes[index] === payload.killedShape) {
             state.shapes[index].selected = false;
             state.active = false;
             return;
@@ -53,8 +53,8 @@ export default {
                         chess: state.shapes[i].name,
                         chessId: state.shapes[i].id,
                         fromPosition: state.shapes[i].position,
-                        toPosition: killedShape.name,
-                        swallowed: false,
+                        toPosition: killedShape.position,
+                        swallowed: killedShape.name,
                         swallowedId: killedShape.id,
                         class: 'active'
                     })
@@ -79,17 +79,6 @@ export default {
             this.commit('squares/placeShape', state.shapes[i]);
         }
     },
-
-// {
-//     "player": "Black",
-//     "chess": "Knight",
-//     "chessId": "5",
-//     "fromPosition": "b8",
-//     "toPosition": "c6",
-//     "swallowed": false,
-//     "class": "active",
-//     "active": true
-// }
     goBackHistory() {
 
         // const previousRound = this.getters['game/history'].find(el => el.active);
@@ -118,5 +107,20 @@ export default {
         //
         // this.commit('game/nextRound', previousMotion.player);
         this.commit('game/goForward');
+    },
+    compareShapesWithHistory(state, payload) {
+        for (let i = 0; i < payload.length; i++) {
+            if (payload[i].swallowed) {
+                let index = state.shapes.findIndex(shape => shape.id === payload[i].swallowedId);
+                console.log(state.shapes[index]);
+                this.commit('squares/deleteShape', state.shapes[index].position);
+                state.shapes[index].position = '';
+            }
+            let index = state.shapes.findIndex(shape => shape.id === payload[i].chessId);
+            state.shapes[index].position = payload[i].toPosition;
+            this.commit('squares/placeShape', state.shapes[index]);
+            this.commit('squares/deleteShape', payload[i].fromPosition);
+        }
+
     }
 }

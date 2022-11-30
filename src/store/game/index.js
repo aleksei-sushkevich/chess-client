@@ -8,7 +8,8 @@ export default {
         return {
             round: 'White',
             history: [],
-            gamesHistory: []
+            gamesHistory: [],
+            winner: null
         }
     },
     mutations,

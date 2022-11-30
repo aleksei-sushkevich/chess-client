@@ -33,17 +33,21 @@ export default {
         }
 
         localStorage.setItem('userId', responseData.userId);
+        localStorage.setItem('token', responseData.token);
 
         context.commit('setUser', {
-            userId: responseData.userId
+            userId: responseData.userId,
+            token: responseData.token
         });
     },
     tryLogin(context) {
         const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
 
         if (userId) {
             context.commit('setUser', {
-                userId: userId
+                userId,
+                token
             });
         }
     }

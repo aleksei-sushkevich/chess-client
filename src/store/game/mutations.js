@@ -7,6 +7,7 @@ export default {
         this.commit('squares/resetSquares');
         this.commit('shapes/resetShapes');
         state.round = 'White';
+        state.winner = null;
         state.history = [];
     },
     writeHistory(state, payload) {
@@ -47,6 +48,13 @@ export default {
         } else {
             state.history[state.history.length - 1].class = 'active';
         }
+    },
+    finishGame(state, payload) {
+        state.winner = payload.color;
+    },
+    changeCurrentHistory(state, payload) {
+        state.history = payload;
+        this.commit('shapes/compareShapesWithHistory', payload);
     }
 
 }

@@ -4,9 +4,6 @@
       <base-button @click="startNewGame">Start New Game</base-button>
     </div>
     <div class="container">
-      <base-button @click="showOnlineGame">Online Game</base-button>
-    </div>
-    <div class="container">
       <base-button @click="showSaveGame">Save Game</base-button>
       <save-history :show="isSaveGame" @close-menu="showSaveGame" v-if="isSaveGame"></save-history>
     </div>
@@ -31,6 +28,7 @@ import SaveHistory from "@/components/menu/SaveHistory";
 import GamesHistory from "@/components/menu/GamesHistory";
 import TheSettings from "@/components/menu/TheSettings";
 import {ref} from "vue";
+import {startNewGame} from "@/hooks/game";
 
 const store = useStore();
 const router = useRouter();
@@ -39,17 +37,9 @@ const isSaveGame = ref(false);
 const isHistory = ref(false);
 const isSettings = ref(false);
 
-function startNewGame() {
-  store.commit('game/startNewGame');
-}
 
 function showSaveGame() {
   isSaveGame.value = !isSaveGame.value;
-}
-
-
-function showOnlineGame() {
-  console.log('hohoho');
 }
 
 async function showHistory(){

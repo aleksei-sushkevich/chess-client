@@ -7,5 +7,8 @@ export default {
     },
     gamesHistory(state) {
         return state.gamesHistory;
+    },
+    winner(state) {
+        return state.winner;
     }
 }

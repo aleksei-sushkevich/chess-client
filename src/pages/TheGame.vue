@@ -9,6 +9,7 @@
     <div class="history-wrapper">
       <history-view></history-view>
     </div>
+    <winner-view :winner="winner" :show="!!winner"></winner-view>
   </div>
 </template>
 
@@ -19,9 +20,14 @@ import GameMenu from "@/components/layout/GameMenu";
 import HistoryView from "@/components/layout/HistoryView";
 
 import {useStore} from "vuex";
+import WinnerView from "@/components/menu/WinnerView";
+import {computed} from "vue";
 
 const store = useStore();
 
+const winner = computed(() => {
+  return store.getters["game/winner"];
+})
 
 store.dispatch('settings/getSettings');
 

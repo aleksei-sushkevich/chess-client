@@ -1,7 +1,7 @@
 <template>
   <base-dialog :show="show" title="History of saved games">
     <div class="form-control">
-        <div v-for="item in history" :key="item" class="history">
+        <div v-for="item in history" :key="item" class="history" @click="downloadGame(item)">
           <div class="history-name">{{item.name}}</div>
           <div class="history-date">{{new Date(item.date).toUTCString()}}</div>
         </div>
@@ -23,6 +23,10 @@ defineProps({
     required: true
   }
 })
+
+function downloadGame(item) {
+  store.commit('game/changeCurrentHistory', item.moves);
+}
 
 const history = computed(() => {
   return store.getters["game/gamesHistory"]
