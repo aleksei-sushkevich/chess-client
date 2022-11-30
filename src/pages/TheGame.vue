@@ -18,6 +18,13 @@ import TheBoard from "@/components/layout/TheBoard";
 import GameMenu from "@/components/layout/GameMenu";
 import HistoryView from "@/components/layout/HistoryView";
 
+import {useStore} from "vuex";
+
+const store = useStore();
+
+
+store.dispatch('settings/getSettings');
+
 </script>
 
 <style scoped>

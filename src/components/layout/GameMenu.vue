@@ -8,15 +8,15 @@
     </div>
     <div class="container">
       <base-button @click="showSaveGame">Save Game</base-button>
-      <save-history :show="isSaveGame" @close-menu="showSaveGame"></save-history>
+      <save-history :show="isSaveGame" @close-menu="showSaveGame" v-if="isSaveGame"></save-history>
     </div>
     <div class="container">
       <base-button @click="showHistory">Download Game</base-button>
-      <games-history :show="isHistory" @close-menu="showHistory"></games-history>
+      <games-history :show="isHistory" @close-menu="showHistory" v-if="isHistory"></games-history>
     </div>
     <div class="container">
       <base-button @click="showSettings">Settings</base-button>
-      <the-settings :show="isSettings" @close-menu="showSettings"></the-settings>
+      <the-settings :show="isSettings" @close-menu="showSettings" v-if="isSettings"></the-settings>
     </div>
     <div class="container">
       <base-button @click="logout">Logout</base-button>

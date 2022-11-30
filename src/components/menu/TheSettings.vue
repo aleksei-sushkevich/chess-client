@@ -44,6 +44,9 @@
 
 <script setup>
 import {defineProps, defineEmits, ref} from "vue";
+import {useStore} from "vuex";
+
+const store = useStore();
 
 defineProps({
   show: {
@@ -54,9 +57,14 @@ defineProps({
 
 const emit = defineEmits(['close-menu']);
 
-const isReversal = ref(true);
-const isAutoSave = ref(false);
-const isKeepAuth = ref(false);
+const isReversal = ref(store.getters["settings/isReversal"]);
+const isAutoSave = ref(store.getters["settings/isAutoSave"]);
+const isKeepAuth = ref(store.getters["settings/isKeepAuth"]);
+
+console.log(isReversal.value);
+console.log(isAutoSave.value);
+console.log(isKeepAuth.value);
+
 
 
 function exit() {
@@ -64,7 +72,12 @@ function exit() {
 }
 
 function saveSettings() {
-
+  store.dispatch('settings/setSettings', {
+    isAutoSave : isAutoSave.value,
+    isReversal : isReversal.value,
+    isKeepAuth : isKeepAuth.value
+  })
+  emit('close-menu');
 }
 
 </script>
